@@ -10,7 +10,15 @@
 [![SQLite](https://img.shields.io/badge/SQLite-3-003B57?style=for-the-badge&logo=sqlite&logoColor=white)](https://sqlite.org)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](LICENSE)
 
-[⭐ Star This Repo](https://github.com/pixelssudio/fittrack-fitness-pwa) • [Report Bug](https://github.com/pixelssudio/fittrack-fitness-pwa/issues) • [Request Feature](https://github.com/pixelssudio/fittrack-fitness-pwa/issues)
+<br/>
+
+[![Live Production VPS](https://img.shields.io/badge/🌐_Live_App-gym.137.23.47.199.sslip.io-00C853?style=for-the-badge&logo=google-chrome&logoColor=white)](https://gym.137.23.47.199.sslip.io)
+[![GitHub Pages Demo](https://img.shields.io/badge/📱_GitHub_Pages-Interactive_Demo-38BDF8?style=for-the-badge&logo=github&logoColor=white)](https://themusafirr.github.io/fittrack-fitness-pwa/)
+[![Telegram Support](https://img.shields.io/badge/💬_Telegram-@the__musafir-0088cc?style=for-the-badge&logo=telegram&logoColor=white)](https://t.me/the_musafir)
+
+<br/>
+
+[⭐ Star This Repo](https://github.com/themusafirr/fittrack-fitness-pwa) • [🌐 Live App](https://gym.137.23.47.199.sslip.io) • [📱 GitHub Demo](https://themusafirr.github.io/fittrack-fitness-pwa/) • [💬 Contact Developer](https://t.me/the_musafir)
 
 </div>
 
@@ -57,7 +65,7 @@ Built with **Python (Flask)** and **SQLite**, it features offline support via a 
 
 ### 1. Clone the Repository
 ```bash
-git clone https://github.com/pixelssudio/fittrack-fitness-pwa.git
+git clone https://github.com/themusafirr/fittrack-fitness-pwa.git
 cd fittrack-fitness-pwa
 ```
 
@@ -76,8 +84,8 @@ Open your browser and navigate to `http://127.0.0.1:5000`.
 
 ## 👨‍💻 Author
 
-**Pankaj Kalosiya (@pixelssudio)**  
-- 💼 Portfolio: [github.com/pixelssudio](https://github.com/pixelssudio)  
+**Pankaj Kalosiya (@themusafirr)**  
+- 💼 Portfolio: [github.com/themusafirr](https://github.com/themusafirr)  
 - 💬 Telegram: [@the_musafir](https://t.me/the_musafir)  
 - 📸 Instagram: [@the.musafirrr__](https://instagram.com/the.musafirrr__)  
 
