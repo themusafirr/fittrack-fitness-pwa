@@ -1,0 +1,21 @@
+{
+  "name": "FitTrack - Personal Gym App",
+  "short_name": "FitTrack",
+  "description": "Transform your body with personalized gym and diet plans",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0a0a0a",
+  "theme_color": "#ff6b35",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect fill='%230a0a0a' width='512' height='512' rx='100'/><text x='256' y='320' font-size='280' text-anchor='middle' fill='%23ff6b35'>💪</text></svg>",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["fitness", "health", "lifestyle"],
+  "lang": "en",
+  "dir": "ltr"
+}

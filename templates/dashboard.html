@@ -1,0 +1,1018 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - FitTrack</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+            color: #fff;
+            min-height: 100vh;
+        }
+        
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+        
+        .bg-animation::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 20% 80%, rgba(220, 38, 38, 0.15) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 20%, rgba(59, 130, 246, 0.15) 0%, transparent 50%);
+            animation: pulse 8s ease-in-out infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        
+        /* Navbar */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 50px;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: 900;
+            background: linear-gradient(135deg, #ef4444, #f97316);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .logo i {
+            -webkit-text-fill-color: #ef4444;
+            margin-right: 8px;
+        }
+        
+        .nav-user {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .user-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            font-weight: 700;
+        }
+        
+        .user-name {
+            font-weight: 600;
+        }
+        
+        .btn-logout {
+            background: rgba(239, 68, 68, 0.2);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            color: #ef4444;
+            padding: 10px 20px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .btn-logout:hover {
+            background: #ef4444;
+            color: white;
+        }
+        
+        /* Main Content */
+        .main-content {
+            padding: 100px 50px 50px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        /* Welcome Section */
+        .welcome-section {
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.2), rgba(139, 92, 246, 0.2));
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 25px;
+            padding: 40px;
+            margin-bottom: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .welcome-text h1 {
+            font-size: 36px;
+            font-weight: 800;
+            margin-bottom: 10px;
+        }
+        
+        .welcome-text h1 span {
+            background: linear-gradient(135deg, #ef4444, #f97316);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .welcome-text p {
+            color: #a1a1aa;
+            font-size: 16px;
+        }
+        
+        .welcome-image img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid #ef4444;
+        }
+        
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        
+        .stat-card {
+            background: rgba(26, 26, 46, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(239, 68, 68, 0.3);
+        }
+        
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 15px;
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin: 0 auto 15px;
+        }
+        
+        .stat-card h3 {
+            font-size: 32px;
+            font-weight: 800;
+            margin-bottom: 5px;
+        }
+        
+        .stat-card p {
+            color: #a1a1aa;
+            font-size: 14px;
+        }
+        
+        /* Profile Section */
+        .profile-section {
+            background: rgba(26, 26, 46, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 25px;
+            padding: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        
+        .section-title {
+            font-size: 24px;
+            font-weight: 700;
+        }
+        
+        .section-title i {
+            color: #ef4444;
+            margin-right: 10px;
+        }
+        
+        /* Profile Form */
+        .profile-form {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            color: #a1a1aa;
+        }
+        
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 15px 18px;
+            border-radius: 12px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.05);
+            color: white;
+            font-size: 15px;
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.3s;
+            outline: none;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus {
+            border-color: #ef4444;
+        }
+        
+        .form-group select option {
+            background: #1a1a2e;
+            color: white;
+        }
+        
+        .btn-save {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .btn-save:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(239, 68, 68, 0.4);
+        }
+        
+        /* Two Column Layout */
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        
+        /* Plan Cards */
+        .plan-card {
+            background: rgba(26, 26, 46, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 25px;
+            padding: 35px;
+            height: 100%;
+        }
+        
+        .plan-card h3 {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .plan-card h3 i {
+            color: #ef4444;
+        }
+        
+        .workout-day {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 15px;
+        }
+        
+        .day-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        
+        .day-name {
+            font-weight: 700;
+            color: #ef4444;
+        }
+        
+        .day-type {
+            font-size: 12px;
+            padding: 4px 12px;
+            border-radius: 50px;
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+        }
+        
+        .exercises {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        
+        .exercise-tag {
+            background: rgba(59, 130, 246, 0.2);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            padding: 6px 14px;
+            border-radius: 50px;
+            font-size: 13px;
+            color: #60a5fa;
+        }
+        
+        /* Diet Plan */
+        .meal {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 15px;
+        }
+        
+        .meal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        
+        .meal-name {
+            font-weight: 700;
+            color: #22c55e;
+        }
+        
+        .meal-time {
+            font-size: 12px;
+            color: #a1a1aa;
+        }
+        
+        .meal-content {
+            color: #d1d5db;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        
+        /* BMI Calculator */
+        .bmi-calculator {
+            background: rgba(26, 26, 46, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 25px;
+            padding: 35px;
+            margin-bottom: 40px;
+        }
+        
+        .bmi-result {
+            display: flex;
+            align-items: center;
+            gap: 40px;
+            margin-top: 25px;
+        }
+        
+        .bmi-value {
+            text-align: center;
+        }
+        
+        .bmi-number {
+            font-size: 64px;
+            font-weight: 900;
+            background: linear-gradient(135deg, #ef4444, #f97316);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .bmi-category {
+            font-size: 18px;
+            font-weight: 600;
+            margin-top: 5px;
+        }
+        
+        .bmi-scale {
+            flex: 1;
+        }
+        
+        .scale-bar {
+            height: 30px;
+            border-radius: 15px;
+            background: linear-gradient(90deg, #3b82f6 0%, #22c55e 25%, #eab308 50%, #f97316 75%, #ef4444 100%);
+            margin-bottom: 10px;
+        }
+        
+        .scale-labels {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: #a1a1aa;
+        }
+        
+        /* Progress Section */
+        .progress-section {
+            background: rgba(26, 26, 46, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 25px;
+            padding: 35px;
+        }
+        
+        .progress-form {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .progress-history {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        .progress-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            margin-bottom: 10px;
+        }
+        
+        .progress-date {
+            font-weight: 600;
+        }
+        
+        .progress-values {
+            display: flex;
+            gap: 30px;
+        }
+        
+        .progress-values span {
+            font-size: 14px;
+            color: #a1a1aa;
+        }
+        
+        .progress-values strong {
+            color: #22c55e;
+        }
+        
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+            color: white;
+            padding: 20px 30px;
+            border-radius: 15px;
+            font-weight: 600;
+            box-shadow: 0 10px 40px rgba(34, 197, 94, 0.4);
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+            z-index: 9999;
+        }
+        
+        .toast.show {
+            transform: translateX(0);
+        }
+        
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .two-column {
+                grid-template-columns: 1fr;
+            }
+            
+            .profile-form {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .progress-form {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            nav {
+                padding: 15px 25px;
+            }
+            
+            .main-content {
+                padding: 100px 25px 25px;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .profile-form {
+                grid-template-columns: 1fr;
+            }
+            
+            .welcome-section {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .welcome-image {
+                margin-top: 20px;
+            }
+            
+            .bmi-result {
+                flex-direction: column;
+            }
+            
+            .progress-form {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-animation"></div>
+    
+    <!-- Navigation -->
+    <nav>
+        <div class="logo"><i class="fas fa-dumbbell"></i> FitTrack</div>
+        <div class="nav-user">
+            <div class="user-info">
+                <div class="user-avatar">{{ user.name[0].upper() }}</div>
+                <span class="user-name">{{ user.name }}</span>
+            </div>
+            <a href="/logout" class="btn-logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        </div>
+    </nav>
+    
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Welcome Section -->
+        <div class="welcome-section">
+            <div class="welcome-text">
+                <h1>Welcome back, <span>{{ user.name }}!</span></h1>
+                <p id="motivation">Loading today's motivation...</p>
+            </div>
+            <div class="welcome-image">
+                <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=200&h=200&fit=crop" alt="Fitness">
+            </div>
+        </div>
+        
+        <!-- Stats Grid -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon"><i class="fas fa-weight"></i></div>
+                <h3 id="stat-weight">{{ user.weight }} kg</h3>
+                <p>Current Weight</p>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon"><i class="fas fa-ruler-vertical"></i></div>
+                <h3 id="stat-height">{{ user.height }} cm</h3>
+                <p>Height</p>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon"><i class="fas fa-fire"></i></div>
+                <h3 id="stat-bmi">--</h3>
+                <p>BMI Score</p>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon"><i class="fas fa-bullseye"></i></div>
+                <h3 id="stat-goal">{{ user.goal|default('Not Set') }}</h3>
+                <p>Your Goal</p>
+            </div>
+        </div>
+        
+        <!-- Profile Section -->
+        <div class="profile-section">
+            <div class="section-header">
+                <h2 class="section-title"><i class="fas fa-user"></i> Your Profile</h2>
+            </div>
+            <form class="profile-form" id="profileForm">
+                <div class="form-group">
+                    <label>Age</label>
+                    <input type="number" name="age" value="{{ profile.age if profile else '' }}" min="10" max="100">
+                </div>
+                <div class="form-group">
+                    <label>Gender</label>
+                    <select name="gender">
+                        <option value="male" {% if user.gender == 'male' %}selected{% endif %}>Male</option>
+                        <option value="female" {% if user.gender == 'female' %}selected{% endif %}>Female</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Height (cm)</label>
+                    <input type="number" name="height" value="{{ user.height }}" min="100" max="250">
+                </div>
+                <div class="form-group">
+                    <label>Weight (kg)</label>
+                    <input type="number" name="weight" value="{{ user.weight }}" min="30" max="300">
+                </div>
+                <div class="form-group">
+                    <label>Body Type</label>
+                    <select name="body_type">
+                        <option value="average" {% if user.body_type == 'average' %}selected{% endif %}>Average</option>
+                        <option value="mota" {% if user.body_type == 'mota' %}selected{% endif %}>Mota (Overweight)</option>
+                        <option value="patla" {% if user.body_type == 'patla' %}selected{% endif %}>Patla (Thin)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Fitness Goal</label>
+                    <select name="goal">
+                        <option value="weight_loss" {% if user.goal == 'weight_loss' %}selected{% endif %}>Weight Loss</option>
+                        <option value="muscle_gain" {% if user.goal == 'muscle_gain' %}selected{% endif %}>Muscle Gain</option>
+                        <option value="shred" {% if user.goal == 'shred' %}selected{% endif %}>Shred / Six Pack</option>
+                        <option value="maintain" {% if user.goal == 'maintain' %}selected{% endif %}>Maintain Weight</option>
+                    </select>
+                </div>
+            </form>
+            <button class="btn-save" onclick="updateProfile()">
+                <i class="fas fa-save"></i> Save Changes
+            </button>
+        </div>
+        
+        <!-- Gym & Diet Plans -->
+        <div class="two-column">
+            <!-- Gym Plan -->
+            <div class="plan-card">
+                <h3><i class="fas fa-dumbbell"></i> Your 7-Day Gym Plan</h3>
+                <div id="gymPlan">
+                    <p style="color: #a1a1aa; text-align: center; padding: 40px;">
+                        <i class="fas fa-spinner fa-spin" style="font-size: 30px; margin-bottom: 15px; display: block;"></i>
+                        Loading your personalized gym plan...
+                    </p>
+                </div>
+            </div>
+            
+            <!-- Diet Plan -->
+            <div class="plan-card">
+                <h3><i class="fas fa-utensils"></i> Your Custom Diet Plan</h3>
+                <div id="dietPlan">
+                    <p style="color: #a1a1aa; text-align: center; padding: 40px;">
+                        <i class="fas fa-spinner fa-spin" style="font-size: 30px; margin-bottom: 15px; display: block;"></i>
+                        Loading your personalized diet plan...
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- BMI Calculator -->
+        <div class="bmi-calculator">
+            <h3><i class="fas fa-calculator"></i> BMI Calculator</h3>
+            <div class="bmi-result">
+                <div class="bmi-value">
+                    <div class="bmi-number" id="bmiValue">--</div>
+                    <div class="bmi-category" id="bmiCategory">Enter details</div>
+                </div>
+                <div class="bmi-scale">
+                    <div class="scale-bar"></div>
+                    <div class="scale-labels">
+                        <span>Underweight<br>&lt;18.5</span>
+                        <span>Normal<br>18.5-24.9</span>
+                        <span>Overweight<br>25-29.9</span>
+                        <span>Obese<br>30+</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Progress Tracking -->
+        <div class="progress-section">
+            <h3><i class="fas fa-chart-line"></i> Track Your Progress</h3>
+            <div class="progress-form">
+                <div class="form-group">
+                    <label>Weight (kg)</label>
+                    <input type="number" id="progressWeight" placeholder="Today's weight">
+                </div>
+                <div class="form-group">
+                    <label>Chest (cm)</label>
+                    <input type="number" id="progressChest" placeholder="Chest measurement">
+                </div>
+                <div class="form-group">
+                    <label>Waist (cm)</label>
+                    <input type="number" id="progressWaist" placeholder="Waist measurement">
+                </div>
+                <div class="form-group">
+                    <label>&nbsp;</label>
+                    <button class="btn-save" onclick="addProgress()">
+                        <i class="fas fa-plus"></i> Add Entry
+                    </button>
+                </div>
+            </div>
+            <div class="progress-history" id="progressHistory">
+                <p style="color: #a1a1aa; text-align: center;">No progress entries yet. Start tracking!</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">Saved successfully!</div>
+    
+    <script>
+        // Motivation messages
+        const motivations = [
+            "Today's workout is tomorrow's transformation! 💪",
+            "Push yourself, because no one else will do it for you! 🔥",
+            "The only bad workout is the one that didn't happen! 🏋️",
+            "Sweat is just fat crying. Keep going! 💧",
+            "Your body can stand almost anything. It's your mind you have to convince! 🧠",
+            "Don't stop when you're tired. Stop when you're done! ⏱️",
+            "Success starts with self-discipline. Let's go! 🚀"
+        ];
+        
+        document.getElementById('motivation').textContent = motivations[Math.floor(Math.random() * motivations.length)];
+        
+        // Calculate BMI
+        function calculateBMI() {
+            const height = parseFloat('{{ user.height }}') / 100;
+            const weight = parseFloat('{{ user.weight }}');
+            if (height > 0 && weight > 0) {
+                const bmi = (weight / (height * height)).toFixed(1);
+                document.getElementById('stat-bmi').textContent = bmi;
+                document.getElementById('bmiValue').textContent = bmi;
+                
+                let category = '';
+                if (bmi < 18.5) category = 'Underweight';
+                else if (bmi < 25) category = 'Normal ✓';
+                else if (bmi < 30) category = 'Overweight';
+                else category = 'Obese';
+                
+                document.getElementById('bmiCategory').textContent = category;
+            }
+        }
+        
+        calculateBMI();
+        
+        // Generate Gym Plan
+        function generateGymPlan() {
+            const bodyType = '{{ user.body_type }}';
+            const goal = '{{ user.goal }}';
+            
+            const plans = {
+                mota_weight_loss: [
+                    { day: 'Day 1', type: 'Cardio + Upper Body', exercises: ['Warm-up 10 min', 'Push-ups 3x12', 'Dumbbell Press 3x12', 'Rows 3x12', 'Plank 3x30s', 'Jump Rope 15 min'] },
+                    { day: 'Day 2', type: 'Cardio + Lower Body', exercises: ['Warm-up 10 min', 'Squats 3x15', 'Lunges 3x12', 'Leg Press 3x12', 'Calf Raises 3x15', 'Treadmill 20 min'] },
+                    { day: 'Day 3', type: 'HIIT Circuit', exercises: ['Burpees 4x10', 'Mountain Climbers 4x20', 'Jumping Jacks 4x30s', 'High Knees 4x30s', 'Battle Rope 4x20s', 'Cool-down stretching'] },
+                    { day: 'Day 4', type: 'Rest / Light Activity', exercises: ['Morning Walk 30 min', 'Stretching 15 min', 'Foam Rolling 10 min'] },
+                    { day: 'Day 5', type: 'Strength + Core', exercises: ['Deadlifts 3x10', 'Bench Press 3x10', 'Shoulder Press 3x10', 'Russian Twists 3x20', 'Leg Raises 3x15'] },
+                    { day: 'Day 6', type: 'Cardio Burn', exercises: ['Cycling 30 min', 'Elliptical 20 min', 'Rowing 15 min', 'Cool-down'] },
+                    { day: 'Day 7', type: 'Full Body Circuit', exercises: ['Kettlebell Swings 4x15', 'Box Jumps 4x10', 'TRX Rows 4x12', 'Medicine Ball Slams 4x15', 'Stretching'] }
+                ],
+                patla_muscle_gain: [
+                    { day: 'Day 1', type: 'Chest + Triceps', exercises: ['Bench Press 4x10', 'Incline DB Press 4x10', 'Cable Flyes 3x12', 'Tricep Pushdown 3x12', 'Skull Crushers 3x12', 'Dips 3xFailure'] },
+                    { day: 'Day 2', type: 'Back + Biceps', exercises: ['Deadlifts 4x8', 'Pull-ups 4x8', 'Barbell Rows 4x10', 'Lat Pulldown 3x12', 'Barbell Curls 3x12', 'Hammer Curls 3x12'] },
+                    { day: 'Day 3', type: 'Rest Day', exercises: ['Light Walk 20 min', 'Stretching 20 min', 'Foam Rolling'] },
+                    { day: 'Day 4', type: 'Shoulders + Abs', exercises: ['Overhead Press 4x10', 'Lateral Raises 4x12', 'Front Raises 3x12', 'Face Pulls 3x15', 'Hanging Leg Raises 4x15', 'Cable Crunches 4x20'] },
+                    { day: 'Day 5', type: 'Legs + Calves', exercises: ['Squats 4x8', 'Romanian Deadlift 4x10', 'Leg Press 4x12', 'Leg Curls 3x12', 'Calf Raises 4x15', 'Seated Calf Press 3x15'] },
+                    { day: 'Day 6', type: 'Arms Special', exercises: ['Preacher Curls 4x10', 'Concentration Curls 3x12', 'Tricep Dips 4x12', 'Overhead Tricep 3x12', 'Diamond Push-ups 3xFailure'] },
+                    { day: 'Day 7', type: 'Active Recovery', exercises: ['Light Cardio 30 min', 'Full Body Stretching 20 min'] }
+                ],
+                average_maintain: [
+                    { day: 'Day 1', type: 'Push Day', exercises: ['Bench Press 3x10', 'Overhead Press 3x10', 'Incline DB Press 3x10', 'Lateral Raises 3x12', 'Tricep Pushdown 3x12'] },
+                    { day: 'Day 2', type: 'Pull Day', exercises: ['Deadlift 3x8', 'Barbell Rows 3x10', 'Lat Pulldown 3x10', 'Face Pulls 3x15', 'Barbell Curls 3x12'] },
+                    { day: 'Day 3', type: 'Legs + Core', exercises: ['Squats 3x10', 'Lunges 3x10', 'Leg Press 3x12', 'Leg Curls 3x12', 'Plank 3x45s', 'Russian Twists 3x20'] },
+                    { day: 'Day 4', type: 'Rest / Cardio', exercises: ['Light Cardio 30-45 min', 'Stretching'] },
+                    { day: 'Day 5', type: 'Upper Body', exercises: ['Pull-ups 3x8', 'Dumbbell Press 3x10', 'Cable Rows 3x10', 'Shoulder Press 3x10', 'Bicep Curls 3x12'] },
+                    { day: 'Day 6', type: 'Lower Body', exercises: ['Romanian Deadlift 3x10', 'Leg Press 3x12', 'Calf Raises 4x15', 'Russian Twists 3x20', 'Hanging Leg Raises 3x15'] },
+                    { day: 'Day 7', type: 'Full Body + Cardio', exercises: ['Kettlebell Swings 3x15', 'Battle Rope 3x30s', 'Burpees 3x10', 'Mountain Climbers 3x20', 'Rowing 15 min'] }
+                ],
+                shred_abs: [
+                    { day: 'Day 1', type: 'Upper Body + Abs', exercises: ['Bench Press 4x12', 'Dumbbell Flyes 4x12', 'Shoulder Press 4x12', 'Lateral Raises 4x15', 'Cable Crunches 4x20', 'Hanging Leg Raises 4x15'] },
+                    { day: 'Day 2', type: 'Lower Body + Cardio', exercises: ['Squats 4x12', 'Lunges 4x12', 'Leg Press 4x15', 'Calf Raises 4x20', 'Treadmill Sprints 20 min', 'Jump Rope 10 min'] },
+                    { day: 'Day 3', type: 'HIIT Day', exercises: ['Burpees 5x10', 'Mountain Climbers 5x30s', 'Jump Squats 5x15', 'High Knees 5x30s', 'Plank Jacks 5x30s', 'Cool-down'] },
+                    { day: 'Day 4', type: 'Rest / Active Recovery', exercises: ['Yoga 30 min', 'Stretching 20 min', 'Light Walk'] },
+                    { day: 'Day 5', type: 'Pull + Core', exercises: ['Deadlifts 4x10', 'Pull-ups 4x10', 'Rows 4x12', 'Face Pulls 4x15', 'Russian Twists 4x30', 'Bicycle Crunches 4x25'] },
+                    { day: 'Day 6', type: 'Cardio + Abs', exercises: ['Cycling 30 min', 'Elliptical 20 min', 'Ab Wheel 4x12', 'Plank 4x60s', 'Leg Raises 4x15'] },
+                    { day: 'Day 7', type: 'Full Body Circuit', exercises: ['Kettlebell Swings 5x20', 'Box Jumps 5x12', 'TRX Rows 5x12', 'Battle Rope 5x30s', 'Stretching'] }
+                ]
+            };
+            
+            const key = '{{ user.body_type }}_{{ user.goal }}';
+            const selectedPlan = plans[key] || plans['average_maintain'];
+            
+            let html = '';
+            selectedPlan.forEach(day => {
+                html += `
+                    <div class="workout-day">
+                        <div class="day-header">
+                            <span class="day-name">${day.day}</span>
+                            <span class="day-type">${day.type}</span>
+                        </div>
+                        <div class="exercises">
+                            ${day.exercises.map(ex => `<span class="exercise-tag">${ex}</span>`).join('')}
+                        </div>
+                    </div>
+                `;
+            });
+            
+            document.getElementById('gymPlan').innerHTML = html;
+        }
+        
+        // Generate Diet Plan
+        function generateDietPlan() {
+            const goal = '{{ user.goal }}';
+            const weight = parseFloat('{{ user.weight }}');
+            const calories = Math.round(weight * 24 * 1.5); // BMR estimation
+            
+            const plans = {
+                weight_loss: {
+                    cals: calories - 500,
+                    meals: [
+                        { name: 'Breakfast', time: '7:00 AM', content: `• 4 Egg Whites + 1 Whole Egg Omelette\n• 1 Slice Brown Bread\n• 1 Cup Black Coffee\n\n🥚 Protein: 30g | 🥣 Carbs: 20g` },
+                        { name: 'Mid-Morning Snack', time: '10:30 AM', content: `• 1 Apple / Banana\n• 30g Roasted Peanuts\n\n🍎 Calories: 150` },
+                        { name: 'Lunch', time: '1:00 PM', content: `• 150g Grilled Chicken Breast\n• 1 Cup Brown Rice\n• Mixed Vegetable Salad\n• 1 Lemon Glass\n\n🍗 Protein: 45g | 🥣 Carbs: 50g` },
+                        { name: 'Evening Snack', time: '4:00 PM', content: `• 1 Glass Buttermilk\n• Handful of Almonds (20g)\n\n🥛 Calories: 120` },
+                        { name: 'Dinner', time: '8:00 PM', content: `• 200g Grilled Fish / Chicken\n• Steamed Vegetables\n• 1 Small Bowl Quinoa\n\n🍽️ Protein: 40g | 🥣 Carbs: 25g` }
+                    ]
+                },
+                muscle_gain: {
+                    cals: calories + 500,
+                    meals: [
+                        { name: 'Breakfast', time: '7:00 AM', content: `• 4 Whole Eggs\n• 2 Parathas with Ghee\n• 1 Glass Milk\n• Banana Shake\n\n🍳 Protein: 35g | 🥣 Carbs: 80g | 🍌 Calories: 650` },
+                        { name: 'Mid-Morning Snack', time: '10:30 AM', content: `• 100g Paneer\n• 1 Banana\n• 10 Almonds\n\n🥛 Calories: 300` },
+                        { name: 'Lunch', time: '1:00 PM', content: `• 200g Chicken Curry\n• 2 Rotis\n• 1 Cup Dal\n• 1 Cup Rice\n• Salad\n\n🍗 Protein: 55g | 🥣 Carbs: 90g` },
+                        { name: 'Evening Snack', time: '4:00 PM', content: `• Peanut Butter Sandwich\n• 1 Glass Milk\n• 1 Banana\n\n🥪 Calories: 400` },
+                        { name: 'Dinner', time: '8:00 PM', content: `• 200g Paneer / Fish\n• 2 Rotis\n• Vegetable Curry\n• 1 Cup Curd\n\n🍽️ Protein: 50g | 🥣 Carbs: 60g` },
+                        { name: 'Before Sleep', time: '10:00 PM', content: `• 1 Glass Milk\n• 1 Scoop Protein Powder (if available)\n\n🥛 Calories: 200` }
+                    ]
+                },
+                shred: {
+                    cals: calories - 300,
+                    meals: [
+                        { name: 'Breakfast', time: '6:30 AM', content: `• 3 Egg Whites\n• 1 Whole Egg\n• Oats with Water\n• Green Tea\n\n🥚 Protein: 28g | 🥣 Carbs: 25g` },
+                        { name: 'Mid-Morning Snack', time: '9:30 AM', content: `• 1 Apple\n• 10 Almonds\n\n🍎 Calories: 100` },
+                        { name: 'Lunch', time: '12:30 PM', content: `• 150g Grilled Chicken\n• Large Salad with Lemon\n• 1 Small Bowl Brown Rice\n\n🍗 Protein: 42g | 🥣 Carbs: 30g` },
+                        { name: 'Evening Snack', time: '4:00 PM', content: `• Black Coffee\n• 5 Walnuts\n\n☕ Calories: 80` },
+                        { name: 'Dinner', time: '7:00 PM', content: `• Steamed Fish 150g\n• Broccoli / Spinach\n• 1 Small Sweet Potato\n\n🍽️ Protein: 38g | 🥣 Carbs: 20g` }
+                    ]
+                },
+                maintain: {
+                    cals: calories,
+                    meals: [
+                        { name: 'Breakfast', time: '7:00 AM', content: `• 3 Eggs\n• 2 Parathas / Bread\n• 1 Glass Milk\n• Seasonal Fruit\n\n🍳 Protein: 30g | 🥣 Carbs: 60g` },
+                        { name: 'Mid-Morning Snack', time: '10:30 AM', content: `• Handful of Nuts\n• 1 Fruit\n\n🥜 Calories: 200` },
+                        { name: 'Lunch', time: '1:00 PM', content: `• 150g Chicken/Fish\n• 2 Rotis / Rice\n• Dal/Vegetable\n• Salad\n\n🍗 Protein: 40g | 🥣 Carbs: 65g` },
+                        { name: 'Evening Snack', time: '4:30 PM', content: `• Tea + Biscuits\n• 1 Seasonal Fruit\n\n🍵 Calories: 150` },
+                        { name: 'Dinner', time: '8:00 PM', content: `• 150g Protein\n• Vegetables\n• 1 Roti / Small Rice\n\n🍽️ Protein: 35g | 🥣 Carbs: 40g` }
+                    ]
+                }
+            };
+            
+            const selectedPlan = plans['{{ user.goal }}'] || plans['maintain'];
+            
+            let html = `<p style="color: #ef4444; margin-bottom: 20px; font-weight: 700;">Daily Target: ${selectedPlan.cals} Calories</p>`;
+            
+            selectedPlan.meals.forEach(meal => {
+                html += `
+                    <div class="meal">
+                        <div class="meal-header">
+                            <span class="meal-name">${meal.name}</span>
+                            <span class="meal-time">${meal.time}</span>
+                        </div>
+                        <div class="meal-content">${meal.content.replace(/\n/g, '<br>')}</div>
+                    </div>
+                `;
+            });
+            
+            document.getElementById('dietPlan').innerHTML = html;
+        }
+        
+        generateGymPlan();
+        generateDietPlan();
+        
+        // Update Profile
+        function updateProfile() {
+            const form = document.getElementById('profileForm');
+            const formData = new FormData(form);
+            
+            fetch('/update_profile', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    showToast('Profile updated successfully!');
+                    setTimeout(() => location.reload(), 1500);
+                }
+            })
+            .catch(error => {
+                showToast('Error updating profile');
+            });
+        }
+        
+        // Add Progress Entry
+        function addProgress() {
+            const weight = document.getElementById('progressWeight').value;
+            const chest = document.getElementById('progressChest').value;
+            const waist = document.getElementById('progressWaist').value;
+            
+            if (!weight && !chest && !waist) {
+                showToast('Please enter at least one measurement');
+                return;
+            }
+            
+            const formData = new FormData();
+            if (weight) formData.append('weight', weight);
+            if (chest) formData.append('chest', chest);
+            if (waist) formData.append('waist', waist);
+            
+            fetch('/add_progress', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    showToast('Progress added!');
+                    document.getElementById('progressWeight').value = '';
+                    document.getElementById('progressChest').value = '';
+                    document.getElementById('progressWaist').value = '';
+                    loadProgressHistory();
+                }
+            });
+        }
+        
+        // Load Progress History
+        function loadProgressHistory() {
+            fetch('/get_progress')
+            .then(response => response.json())
+            .then(data => {
+                if (data.length > 0) {
+                    let html = '';
+                    data.reverse().forEach(entry => {
+                        html += `
+                            <div class="progress-item">
+                                <span class="progress-date">${entry.date}</span>
+                                <div class="progress-values">
+                                    ${entry.weight ? `<span>Weight: <strong>${entry.weight} kg</strong></span>` : ''}
+                                    ${entry.chest ? `<span>Chest: <strong>${entry.chest} cm</strong></span>` : ''}
+                                    ${entry.waist ? `<span>Waist: <strong>${entry.waist} cm</strong></span>` : ''}
+                                </div>
+                            </div>
+                        `;
+                    });
+                    document.getElementById('progressHistory').innerHTML = html;
+                }
+            });
+        }
+        
+        loadProgressHistory();
+        
+        // Toast Notification
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+    </script>
+</body>
+</html>

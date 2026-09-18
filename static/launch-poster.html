@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Rawatbhata Hyperlocal - Launch Poster</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
+  .poster {
+    width: 1080px;
+    height: 1080px;
+    background: linear-gradient(135deg, #fef3c7 0%, #fde68a 50%, #fbbf24 100%);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 50px 60px;
+  }
+  /* Confetti decoration */
+  .confetti {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+  }
+  .confetti span {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    background: #f59e0b;
+    border-radius: 2px;
+  }
+  .confetti span:nth-child(1) { top: 5%; left: 8%; background: #ef4444; transform: rotate(20deg); }
+  .confetti span:nth-child(2) { top: 12%; left: 88%; background: #3b82f6; transform: rotate(-30deg); }
+  .confetti span:nth-child(3) { top: 18%; left: 15%; background: #10b981; transform: rotate(45deg); }
+  .confetti span:nth-child(4) { top: 8%; left: 50%; background: #f59e0b; transform: rotate(15deg); }
+  .confetti span:nth-child(5) { top: 25%; left: 92%; background: #ec4899; transform: rotate(-15deg); }
+  .confetti span:nth-child(6) { top: 6%; left: 30%; background: #8b5cf6; transform: rotate(60deg); }
+  .confetti span:nth-child(7) { top: 15%; left: 70%; background: #06b6d4; transform: rotate(-45deg); }
+  .header {
+    text-align: center;
+    margin-top: 20px;
+    z-index: 2;
+  }
+  .launching {
+    color: #1e293b;
+    font-size: 48px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    margin-bottom: 5px;
+  }
+  .brand {
+    font-size: 72px;
+    font-weight: 900;
+    letter-spacing: -1px;
+    line-height: 1;
+  }
+  .brand .city {
+    color: #f97316;
+  }
+  .brand .hyper {
+    color: #1e3a8a;
+  }
+  .tagline {
+    color: #475569;
+    font-size: 26px;
+    font-weight: 600;
+    margin-top: 10px;
+  }
+  .app-showcase {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 30px 0;
+    z-index: 2;
+    gap: 20px;
+  }
+  .phone-mockup {
+    width: 380px;
+    height: 380px;
+    background: #1e293b;
+    border-radius: 40px;
+    border: 8px solid #0f172a;
+    position: relative;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+  }
+  .phone-top {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
+  }
+  .app-icon {
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(135deg, #f59e0b, #f97316);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 24px;
+    font-weight: bold;
+  }
+  .app-title {
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+  }
+  .app-subtitle {
+    color: #94a3b8;
+    font-size: 10px;
+  }
+  .search-bar {
+    width: 90%;
+    background: #334155;
+    border-radius: 20px;
+    padding: 10px 15px;
+    color: #94a3b8;
+    font-size: 12px;
+    margin: 15px 0;
+  }
+  .service-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    width: 90%;
+  }
+  .service-card {
+    background: #334155;
+    border-radius: 12px;
+    padding: 15px 10px;
+    text-align: center;
+    color: white;
+  }
+  .service-card .icon {
+    font-size: 28px;
+    margin-bottom: 5px;
+  }
+  .service-card .name {
+    font-size: 11px;
+    font-weight: 600;
+  }
+  .mascot {
+    width: 320px;
+    height: 380px;
+    position: relative;
+  }
+  .mascot-emoji {
+    font-size: 280px;
+    line-height: 1;
+  }
+  .feature-list {
+    text-align: center;
+    margin: 20px 0;
+    z-index: 2;
+  }
+  .feature-main {
+    color: #0f172a;
+    font-size: 32px;
+    font-weight: 800;
+    margin-bottom: 8px;
+  }
+  .feature-sub {
+    color: #475569;
+    font-size: 22px;
+    font-weight: 500;
+  }
+  .cta-button {
+    background: linear-gradient(90deg, #f97316, #f59e0b);
+    color: white;
+    padding: 18px 60px;
+    border-radius: 50px;
+    font-size: 28px;
+    font-weight: 800;
+    margin-top: 20px;
+    box-shadow: 0 8px 20px rgba(249, 115, 22, 0.4);
+    z-index: 2;
+  }
+  .website {
+    color: #1e293b;
+    font-size: 22px;
+    font-weight: 600;
+    margin-top: 15px;
+    z-index: 2;
+  }
+  .footer-icons {
+    display: flex;
+    gap: 15px;
+    margin-top: 15px;
+    z-index: 2;
+  }
+  .footer-icons span {
+    width: 45px;
+    height: 45px;
+    background: #1e293b;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 22px;
+  }
+  .bg-illustration {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 200px;
+    background: linear-gradient(180deg, transparent 0%, #d97706 100%);
+    opacity: 0.3;
+  }
+</style>
+</head>
+<body>
+<div class="poster">
+  <div class="confetti">
+    <span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span>
+  </div>
+  
+  <div class="header">
+    <div class="launching">LAUNCHING</div>
+    <div class="brand">
+      <span class="city">RAWATBHATA</span> <span class="hyper">HYPERLOCAL</span>
+    </div>
+    <div class="tagline">RAWATBHATA'S OWN DELIVERY APP</div>
+  </div>
+  
+  <div class="app-showcase">
+    <div class="phone-mockup">
+      <div class="phone-top">
+        <div class="app-icon">R</div>
+        <div>
+          <div class="app-title">Rawatbhata</div>
+          <div class="app-subtitle">Hyperlocal</div>
+        </div>
+      </div>
+      <div class="search-bar">🔍 Search 11 Search</div>
+      <div class="service-grid">
+        <div class="service-card">
+          <div class="icon">🥬</div>
+          <div class="name">GROCERY</div>
+        </div>
+        <div class="service-card">
+          <div class="icon">🍕</div>
+          <div class="name">FOOD</div>
+        </div>
+        <div class="service-card">
+          <div class="icon">💊</div>
+          <div class="name">MEDICINE</div>
+        </div>
+        <div class="service-card">
+          <div class="icon">📦</div>
+          <div class="name">PARCEL</div>
+        </div>
+      </div>
+    </div>
+    <div class="mascot">
+      <div class="mascot-emoji">👩🏻</div>
+    </div>
+  </div>
+  
+  <div class="feature-list">
+    <div class="feature-main">Everything you need, delivered in minutes!</div>
+    <div class="feature-sub">Rashan, Khana, Davaaiyan aur bohot kuch!</div>
+  </div>
+  
+  <div class="cta-button">ORDER NOW!</div>
+  
+  <div class="website">📞 rawatbhata-hyperlocal.vercel.app</div>
+  
+  <div class="footer-icons">
+    <span>📱</span>
+    <span>📷</span>
+  </div>
+  
+  <div class="bg-illustration"></div>
+</div>
+</body>
+</html>

@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Account - FitTrack</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+        
+        .bg-animation::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 20% 80%, rgba(220, 38, 38, 0.15) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 20%, rgba(59, 130, 246, 0.15) 0%, transparent 50%);
+            animation: pulse 8s ease-in-out infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        
+        .container {
+            display: flex;
+            align-items: center;
+            gap: 80px;
+            max-width: 1200px;
+            width: 100%;
+        }
+        
+        .form-section {
+            flex: 1;
+            max-width: 500px;
+        }
+        
+        .brand-section {
+            flex: 1;
+            text-align: center;
+        }
+        
+        .brand-section img {
+            width: 100%;
+            max-width: 450px;
+            border-radius: 30px;
+            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.5);
+            margin-bottom: 30px;
+        }
+        
+        .brand-section h2 {
+            font-size: 32px;
+            font-weight: 800;
+            margin-bottom: 15px;
+        }
+        
+        .brand-section p {
+            color: #a1a1aa;
+            font-size: 16px;
+        }
+        
+        .logo {
+            font-size: 28px;
+            font-weight: 900;
+            background: linear-gradient(135deg, #ef4444, #f97316);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 40px;
+            display: block;
+        }
+        
+        .logo i {
+            -webkit-text-fill-color: #ef4444;
+            margin-right: 8px;
+        }
+        
+        .form-card {
+            background: rgba(26, 26, 46, 0.8);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 30px;
+            padding: 50px;
+        }
+        
+        .form-card h1 {
+            font-size: 32px;
+            font-weight: 800;
+            margin-bottom: 10px;
+        }
+        
+        .form-card .subtitle {
+            color: #a1a1aa;
+            margin-bottom: 35px;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+            font-size: 14px;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 18px 20px;
+            border-radius: 15px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.05);
+            color: white;
+            font-size: 16px;
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.3s;
+            outline: none;
+        }
+        
+        .form-group input:focus {
+            border-color: #ef4444;
+            box-shadow: 0 0 20px rgba(239, 68, 68, 0.2);
+        }
+        
+        .form-group input::placeholder {
+            color: #71717a;
+        }
+        
+        .btn-submit {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+            border: none;
+            border-radius: 15px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .btn-submit:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(239, 68, 68, 0.5);
+        }
+        
+        .form-footer {
+            text-align: center;
+            margin-top: 25px;
+            color: #a1a1aa;
+        }
+        
+        .form-footer a {
+            color: #ef4444;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        .form-footer a:hover {
+            text-decoration: underline;
+        }
+        
+        .flash-messages {
+            margin-bottom: 25px;
+        }
+        
+        .flash {
+            padding: 15px 20px;
+            border-radius: 12px;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+        
+        .flash.success {
+            background: rgba(34, 197, 94, 0.2);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            color: #22c55e;
+        }
+        
+        .flash.error {
+            background: rgba(239, 68, 68, 0.2);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            color: #ef4444;
+        }
+        
+        @media (max-width: 900px) {
+            .container {
+                flex-direction: column-reverse;
+            }
+            
+            .brand-section {
+                display: none;
+            }
+            
+            .form-section {
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-animation"></div>
+    
+    <div class="container">
+        <div class="form-section">
+            <span class="logo"><i class="fas fa-dumbbell"></i> FitTrack</span>
+            
+            <div class="form-card">
+                <h1>Create Account</h1>
+                <p class="subtitle">Start your fitness journey today — it's free!</p>
+                
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        <div class="flash-messages">
+                            {% for category, message in messages %}
+                                <div class="flash {{ category }}">{{ message }}</div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                {% endwith %}
+                
+                <form method="POST" action="/register">
+                    <div class="form-group">
+                        <label>Full Name</label>
+                        <input type="text" name="name" placeholder="Enter your full name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Email Address</label>
+                        <input type="email" name="email" placeholder="Enter your email" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" name="password" placeholder="Create a strong password" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Confirm Password</label>
+                        <input type="password" name="confirm_password" placeholder="Confirm your password" required>
+                    </div>
+                    
+                    <button type="submit" class="btn-submit">
+                        <i class="fas fa-user-plus"></i> Create Account
+                    </button>
+                </form>
+                
+                <div class="form-footer">
+                    Already have an account? <a href="/login">Sign In</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="brand-section">
+            <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=500&h=600&fit=crop" alt="Gym Workout">
+            <h2>Join 50,000+ Members</h2>
+            <p>Transform your body with personalized plans</p>
+        </div>
+    </div>
+</body>
+</html>
