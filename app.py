@@ -1,12 +1,36 @@
 from flask import Flask, render_template, request, redirect, url_for, session, flash, send_from_directory
 import sqlite3
-from datetime import datetime
+from datetime import datetime, timedelta
 from werkzeug.security import check_password_hash, generate_password_hash
 import os
+import time
+from collections import defaultdict
 
 app = Flask(__name__)
-app.secret_key = 'fitness_secret_key_2024'
+
+# ===================== 🍪 3 GOLDEN COOKIE FLAGS & SESSION HARDENING =====================
+app.config.update(
+    SECRET_KEY=os.getenv('FLASK_SECRET_KEY', 'fit_musafir_ultra_hardened_secret_key_2026_!#%&'),
+    SESSION_COOKIE_HTTPONLY=True,       # 🛡️ FLAG 1: HttpOnly -> Completely blocks JavaScript/XSS session stealing
+    SESSION_COOKIE_SECURE=True,         # 🛡️ FLAG 2: Secure -> Transmitted exclusively over encrypted HTTPS
+    SESSION_COOKIE_SAMESITE='Lax',      # 🛡️ FLAG 3: SameSite=Lax -> Blocks CSRF phishing and cross-site hijacking
+    PERMANENT_SESSION_LIFETIME=timedelta(days=7)
+)
 DATABASE = 'fitness.db'
+
+# ===================== 🛡️ BRUTE-FORCE DEFENSE (THC-HYDRA PROTECTION) =====================
+failed_attempts = defaultdict(list)
+
+def is_rate_limited(ip, max_attempts=5, window_sec=300):
+    now = time.time()
+    failed_attempts[ip] = [t for t in failed_attempts[ip] if now - t < window_sec]
+    return len(failed_attempts[ip]) >= max_attempts
+
+def record_failed_attempt(ip):
+    failed_attempts[ip].append(time.time())
+
+def clear_failed_attempts(ip):
+    failed_attempts.pop(ip, None)
 
 # PWA Files
 @app.route('/manifest.json')
@@ -60,40 +84,59 @@ def index():
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
-        name = request.form['name']
-        email = request.form['email']
-        password = request.form['password']
+        name = request.form['name'].strip()
+        email = request.form['email'].strip().lower()
+        raw_password = request.form['password']
+        
+        if len(raw_password) < 6:
+            flash('Password must be at least 6 characters long!', 'error')
+            return render_template('register.html')
+
+        # 🔒 MODERN PASSWORD DEFENSE: High-entropy salt + Scrypt/Werkzeug cryptographic hashing
+        hashed_password = generate_password_hash(raw_password)
         
         try:
             conn = get_db()
             c = conn.cursor()
+            # 🛡️ SQL INJECTION DEFENSE: Parameterized prepared statements (100% immune to SQLi)
             c.execute("INSERT INTO users (name, email, password) VALUES (?, ?, ?)",
-                     (name, email, password))
+                     (name, email, hashed_password))
             conn.commit()
             conn.close()
             flash('Registration successful! Please login.', 'success')
             return redirect(url_for('login'))
-        except:
-            flash('Email already exists!', 'error')
+        except Exception as e:
+            flash('Email already exists or invalid data!', 'error')
     return render_template('register.html')
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    client_ip = request.headers.get('X-Real-IP', request.headers.get('X-Forwarded-For', request.remote_addr))
+    
+    # 🛑 THC-HYDRA / BRUTE-FORCE RATE LIMITING DEFENSE
+    if is_rate_limited(client_ip, max_attempts=5, window_sec=300):
+        flash('Too many failed login attempts! Account locked for 5 minutes for security.', 'error')
+        return render_template('login.html'), 429
+
     if request.method == 'POST':
-        email = request.form['email']
+        email = request.form['email'].strip().lower()
         password = request.form['password']
         
         conn = get_db()
         c = conn.cursor()
+        # 🛡️ SQL INJECTION DEFENSE: Parameterized query
         c.execute("SELECT * FROM users WHERE email = ?", (email,))
         user = c.fetchone()
         conn.close()
         
         if user and check_password_hash(user['password'], password):
+            clear_failed_attempts(client_ip)
             session['user_id'] = user['id']
             session['user_name'] = user['name']
+            session.permanent = True
             return redirect(url_for('dashboard'))
         else:
+            record_failed_attempt(client_ip)
             flash('Invalid email or password!', 'error')
     return render_template('login.html')
 
